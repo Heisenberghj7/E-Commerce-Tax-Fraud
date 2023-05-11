@@ -7,12 +7,12 @@ class Moubawab_Spider(scrapy.Spider):
     def parse(self, response):
         for property in response.css('li.promotionListing.listingBox.w100'):
             yield {
-                'Property_link': property.css('li.promotionListing.listingBox.w100::attr(linkref)').get()
+                'Property_link': property.css('::attr(linkref)').get()
             }
         
-        #next_page= response.css('a.arrowDot::attr(href)').get()
-        next_page2=response.css('div.paginationDots.sMargTop.centered a::attr(href)')[-1].get()
+        next_page= response.css('a.arrowDot::attr(href)').get()
+        # next_page2=response.css('div.paginationDots.sMargTop.centered a::attr(href)')[-1].get()
 
-        print(f'the link of the next page is : {next_page2}')
-        if next_page2:
-            yield response.follow(url= next_page2, callback= self.parse)
+        print(f'the link of the next page is : {next_page}')
+        if next_page:
+            yield response.follow(url= next_page, callback= self.parse)
