@@ -75,3 +75,11 @@ next_page= response.css("div.paginationDots.sMargTop.centered > a.arrowDot::attr
 property_link= response.css("div.contnr1100.mainContnr > ul > li > div.contentBox.col-8 > h2.listingTit > a::attr(href)").extract()
 property_title= response.css("div.contnr1100.mainContnr > ul > li > div.contentBox.col-8 > h2.listingTit > a::text").extract()
 property_price= response.css("div.contnr1100.mainContnr > ul > li > div.photoBox.col-4.floatR.emptyCol > div > span::text").extract()
+
+## Locations links and LocationVac links
+
+same code as vente links
+
+## Locations and LocationsVac links
+
+same code as vente data
