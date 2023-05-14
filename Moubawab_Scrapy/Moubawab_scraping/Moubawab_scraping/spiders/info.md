@@ -42,7 +42,7 @@ def extract_text(string, start_str, end_str):
 
 Project_name = response.css("div.agencyBigContent > h2::text").extract_first()
 logo= response.css("div.logoAgencyBox > img::attr(src)").extract_first()
-project_description= response.css("p.agencyText::text").extract_first().strip()
-phone number=response.css("span.marginContact.dirLtr::text").extract_first().strip()
+project_description= response.css("p.agencyText::text").extract_first().strip().replace('\n', '').replace('\t', '').replace('\r', '')
+phone_number=response.css("span.marginContact.dirLtr::text").extract_first().strip()
 website=response.css("a.agencyLink::attr(href)").extract()[1]
 

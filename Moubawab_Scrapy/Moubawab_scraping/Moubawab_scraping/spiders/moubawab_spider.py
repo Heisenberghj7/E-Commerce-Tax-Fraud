@@ -1,4 +1,5 @@
 import scrapy
+import json
 
 class Moubawab_Spider(scrapy.Spider):
     name = "moubawab_spider"
@@ -18,3 +19,34 @@ class Moubawab_Spider(scrapy.Spider):
             # next_page_url = response.urljoin(next_page)
             yield response.follow(url= next_page2, callback= self.parse)
             # yield scrapy.follow(url= next_page, callback= self.parse)
+
+class Immobilier_Neuf(scrapy.Spider):
+    name = "Immobilier_Neuf"
+
+    with open('C:\\Users\\HAJJARI\\Desktop\\AI\\13-GithubRepos\\E-Commerce-Tax-Fraud\\Moubawab_Scrapy\\Moubawab_scraping\\links.json', 'r') as f:
+        data= json.load(f)
+    
+    start_urls=[item['Property_link'] for item in data]
+
+    def parse(self, response):
+        try:
+            video_link, virtual_visit = response.css("div.descrBlockProp.noTop > iframe::attr(src)").extract()
+        except:
+             video_link=response.css("div.descrBlockProp.noTop > iframe::attr(src)").extract_first()
+             virtual_visit=''
+        yield {
+            'Name': response.css("div.promotionInfoBox.col-5 > h1::text").extract_first().strip(),
+            'location':response.css("div.promotionInfoBox.col-5 > span::text").extract()[1].strip(),
+            'Exact_localisation': response.css("div.blockProp.mapBlockProp > script::text").extract_first().replace('\n', '').replace('\t', ''),
+            'price':response.css("div.promotionInfoBox.col-3 > h2::text").extract_first().replace('\n', '').replace('\t', '').replace('\xa0','').replace('de','de '),
+            'Description':response.css("div.descrBlockProp.descHolder > p ::text ").extract(),
+            'video_link':video_link,
+            'virtual_visit':virtual_visit,
+            'main_image':response.css("img.currentImgSldr.w100 ::attr(src)").extract_first(),
+            'project_name': response.css("div.agencyBigContent > h2::text").extract_first(),
+            'logo': response.css("div.logoAgencyBox > img::attr(src)").extract_first(),
+            'project_description':response.css("p.agencyText::text").extract_first().strip().replace('\n', '').replace('\t', '').replace('\r', ''),
+            'phone_number':response.css("span.marginContact.dirLtr::text").extract_first().strip(),
+            'website':response.css("a.agencyLink::attr(href)").extract()[1]
+
+        }
