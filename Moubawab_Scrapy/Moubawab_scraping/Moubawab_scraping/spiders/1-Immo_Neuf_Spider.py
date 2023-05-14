@@ -1,8 +1,8 @@
 import scrapy
 import json
 
-class Moubawab_Spider(scrapy.Spider):
-    name = "moubawab_spider"
+class Immobilier_Neuf_links_spider(scrapy.Spider):
+    name = "Immobilier_Neuf_links"
     start_urls=["https://www.mubawab.ma/fr/listing-promotion"]
 
     def parse(self, response):
@@ -13,17 +13,16 @@ class Moubawab_Spider(scrapy.Spider):
         
         #next_page= response.css('a.arrowDot::attr(href)').get()
         next_page2=response.css('div.paginationDots.sMargTop.centered a::attr(href)')[-1].get()
-
         print(f'the link of the next page is : {next_page2}')
         if next_page2 is not None:
             # next_page_url = response.urljoin(next_page)
             yield response.follow(url= next_page2, callback= self.parse)
             # yield scrapy.follow(url= next_page, callback= self.parse)
 
-class Immobilier_Neuf(scrapy.Spider):
-    name = "Immobilier_Neuf"
+class Immobilier_Neuf_data_spider(scrapy.Spider):
+    name = "Immobilier_Neuf_data"
 
-    with open('C:\\Users\\HAJJARI\\Desktop\\AI\\13-GithubRepos\\E-Commerce-Tax-Fraud\\Moubawab_Scrapy\\Moubawab_scraping\\links.json', 'r') as f:
+    with open('1-Immo_Neuf_links.json', 'r') as f:
         data= json.load(f)
     
     start_urls=[item['Property_link'] for item in data]
