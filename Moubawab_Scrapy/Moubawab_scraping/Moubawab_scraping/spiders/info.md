@@ -27,18 +27,7 @@ Description= response.css("div.descrBlockProp.descHolder > p ::text ").extract()
 main_image=response.css("img.currentImgSldr.w100 ::attr(src)").extract_first()
 
 exact_localisation=response.css("div.blockProp.mapBlockProp > script::text").extract_first().replace('\n', '').replace('\t', '')
-def extract_text(string, start_str, end_str):
-    """
-    Extracts the text from a string between the start_str and end_str substrings.
-    Returns an empty string if either substring is not found in the string.
-    """
-    start_index = string.find(start_str)
-    if start_index == -1:
-        return ""
-    end_index = string.find(end_str, start_index + len(start_str))
-    if end_index == -1:
-        return ""
-    return string[start_index + len(start_str):end_index]
+
 
 Project_name = response.css("div.agencyBigContent > h2::text").extract_first()
 logo= response.css("div.logoAgencyBox > img::attr(src)").extract_first()
